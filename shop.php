@@ -7,12 +7,12 @@
 </head>
 <body>
 <?php 
-    $searchTerm = "%" . $_REQUEST['s'] . "%"; 
+    $searchTerm = "%" . $_REQUEST['searchTrm'] . "%"; 
 ?>
 <h1>Discount Juice - Shop</h1>
 <form id="searchForm">
     <label for="searchInput">Search Term</label>
-    <input type="text" name="s" id="searchInput">
+    <input type="text" name="searchTrm" id="searchTrm">
     <input type="submit" value="Submit">
 </form>
 <p style="border: 1px solid black">
@@ -32,15 +32,15 @@ Welcome to our shop, where we sell the juice. Riveting concept, with only the fi
         if (!$result = $stmnt->get_result()) {
             echo "Execute failed: (" . $stmnt->errno . ") " . $stmnt->error;
         }
-        while($row = $stmnt->get_result()->fetch_array()){
-            echo $stmnt->get_result();
+        while($row = $result->fetch_row()){
+//            echo $row;
             echo "<li><div style=\"border: 1px solid black\">";
                 echo "<br>";
                 echo "<p>";
-                    echo "<h2>{$row['name']}</h2><br>";
-                    echo "Price: \${$row['price']} <br>";
-                    echo "Main Ingredient: {$row['ingredient']} <br>";
-                    echo "Vendor ID: {$row['vendorid']}";
+                    echo "<h2>{$row[1]}</h2><br>";
+                    echo "Price: \${$row[2]} <br>";
+                    echo "Main Ingredient: {$row[3]} <br>";
+                    echo "Vendor ID: {$row[4]}";
                 echo "</p>";
             echo "</div></li>";
             //echo "{$row['name']} {$row['price']} {$row['ingredient']} {$row['vendorid']}";
