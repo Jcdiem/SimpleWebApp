@@ -16,30 +16,18 @@ $productToBeRemovedID = $_REQUEST['remove_product_id'];
 if (!($stmnt = $mysqli->prepare("SELECT * FROM products WHERE id=(?)"))) echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
 //Bind the item id
 if (!$stmnt->bind_param("i",$productID)) echo "Binding parameters failed: (" . $stmnt->errno . ") " . $stmnt->error;
-//printf("Binding state: %s.<br>", $stmnt->sqlstate);
 
 //Execute the statement
 if (!$stmnt->execute()) echo "Execute failed: (" . $stmnt->errno . ") " . $stmnt->error;
-//printf("Execution state: %s.<br>", $stmnt->sqlstate);
 
 //Get the result from the statement
-if (!$result = $stmnt->get_result()) echo "Gathering result failed: (" . $result->errno . ") " . $result->error;
-//printf("Result: %s.<br>",implode(" | ", $result->fetch_row()));
+$result = $stmnt->get_result();
 
 //Get the product row from the database
-$productItem = $result->fetch_assoc();
-print_r($productItem); echo "<br>";
+if (is_null($productItem = $result->fetch_assoc())) echo "ERROR: Assoc array not created";
 
-//Make sure the product item isn't null
-//if ($productItem = null) echo "Gathering data failed: " . $stmnt->errno . " - " . $stmnt->error;
-
-//Get the value as a number from the product row
-//printf("productPrice: %s <br>",$productItem);
-$productPrice = isset($productItem['price']) ? $productItem['price'] : false;
-if ($productPrice == false) echo "ERROR: was unable to get product price!";
-//echo $productPrice . " is the product price";
-
-//Make sure price is positive
+//Get the value as a number from the product row (Ternary to prevent PHP from screaming bloody murder when nulls come through [Imagine forcing null checks in a language without type safety])
+if ($productPrice = isset($productItem['price']) ? $productItem['price'] : true) echo "ERROR: was unable to get product price!";
 
 // END PRICE GATHERING
 
