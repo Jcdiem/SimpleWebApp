@@ -1,7 +1,7 @@
-<?php require_once "db.php" ?>
-<?php require_once "force_login.php"?>
-<?php require_once "validation.php" ?>
-<html>
+<?php require_once $_SERVER['DOCUMENT_ROOT']."/admin/db.php" ?>
+<?php require_once $_SERVER['DOCUMENT_ROOT']."/admin/force_login.php"?>
+<?php require_once $_SERVER['DOCUMENT_ROOT']."/validation.php" ?>
+<html lang="en">
 <body>
 
 <?php

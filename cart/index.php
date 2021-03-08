@@ -7,9 +7,22 @@ require_once $_SERVER['DOCUMENT_ROOT']."/admin/db.php";
 
 // Form variables
 $productID = $_REQUEST['product_id'];
-$productPrice = $_REQUEST['price'];
 $productQuantity = $_REQUEST['quantity'] ?: 1;
 $productToBeRemovedID = $_REQUEST['remove_product_id'];
+
+//Prepare the statement
+if (!($stmnt = $mysqli->prepare("SELECT * FROM products WHERE id LIKE (?)"))) echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
+//Bind the item id
+if (!$stmnt->bind_param("i",$productID)) echo "Binding parameters failed: (" . $stmnt->errno . ") " . $stmnt->error;
+//Execute the statement
+if (!$stmnt->execute()) echo "Execute failed: (" . $stmnt->errno . ") " . $stmnt->error;
+//Get the result from the statement
+if (!$result = $stmnt->get_result()) echo "Gathering result failed: (" . $stmnt->errno . ") " . $stmnt->error;
+//Get the product price from the database
+$productPrice = $result->fetch_array(MYSQLI_ASSOC)["price"];
+//Make sure the product price isn't null
+if ($productPrice = null) echo "Gathering data failed: " . $stmnt->errno . " - " . $stmnt->error;
+
 
 // If the user requested an item to be removed, remove it
 if(!empty($productToBeRemovedID)) {

@@ -1,26 +1,25 @@
-<?php require_once "db.php" ?>
-<?php require_once "force_login.php"?>
-<?php require_once "validation.php" ?>
+<?php require_once $_SERVER['DOCUMENT_ROOT']."/admin/db.php" ?>
+<?php require_once $_SERVER['DOCUMENT_ROOT']."/admin/force_login.php"?>
+<?php require_once $_SERVER['DOCUMENT_ROOT']."/validation.php" ?>
 <html>
 <body>
 
 <?php
 
-$myid = $_REQUEST['id'];
+$prodID = $_REQUEST['id'];
 $maxInt = ($mysqli->query("SELECT COUNT(*) FROM products"));
 
 //Perform validations
-if(!checkIntegerRange($myid,0,$maxInt)) failValidation("Improper ID");
+if(!checkIntegerRange($prodID,0,$maxInt)) failValidation("Improper ID");
 else {
 
-    $sql = "DELETE FROM products WHERE id=$myid";
-
-    // This is the object-oriented style to query the database
-    if($mysqli->query($sql) === TRUE)  {
-        echo "Successfully deleted.";
-    } else {
-        echo "Error: $sql <br />" . $mysqli->error;
-    }
+    //Prepare the statement
+    if (!($stmnt = $mysqli->prepare("DELETE FROM products WHERE id=(?)"))) echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
+    //Bind the item id
+    if (!$stmnt->bind_param("i",$prodID)) echo "Binding parameters failed: (" . $stmnt->errno . ") " . $stmnt->error;
+    //Execute the statement
+    if (!$stmnt->execute()) echo "Execute failed: (" . $stmnt->errno . ") " . $stmnt->error;
+    else echo "Item deleted without error.";
 }
 
 ?>

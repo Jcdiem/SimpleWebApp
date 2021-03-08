@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require_once "db.php";
+require_once $_SERVER['DOCUMENT_ROOT']."/admin/db.php";
 
 $myusername = $_REQUEST['username'];
 $mypassword = $_REQUEST['password'];

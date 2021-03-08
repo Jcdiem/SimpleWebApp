@@ -1,5 +1,4 @@
-<?php require_once "db.php" ?>
-<!DOCTYPE php>
+<?php require_once $_SERVER['DOCUMENT_ROOT']."/admin/db.php" ?>
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
@@ -30,7 +29,7 @@ Welcome to our shop, where we sell the juice. Riveting concept, with only the fi
             echo "Execute failed: (" . $stmnt->errno . ") " . $stmnt->error;
         }
         if (!$result = $stmnt->get_result()) {
-            echo "Execute failed: (" . $stmnt->errno . ") " . $stmnt->error;
+            echo "Gathering result failed: (" . $stmnt->errno . ") " . $stmnt->error;
         }
         while($row = $result->fetch_row()){
 //            echo $row;
