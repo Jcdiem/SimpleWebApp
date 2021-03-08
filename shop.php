@@ -1,4 +1,14 @@
-<?php require_once $_SERVER['DOCUMENT_ROOT'] . "/admin/db.php" ?>
+<?php
+require_once $_SERVER['DOCUMENT_ROOT'] . "/admin/db.php";
+session_start();
+//Create CSRF
+try {
+    $_SESSION["csrf_token"] = bin2hex(random_bytes(128));
+} catch (Exception $e) {
+    echo "Huh, that's probably really bad...";
+}
+
+?>
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>

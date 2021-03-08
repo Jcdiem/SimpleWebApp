@@ -49,7 +49,7 @@ $mysecuritycode = $_REQUEST['securitycode'];
 
 //BEGIN: If-else field check
 // If ALL of the fields have been submitted, enter the order
-if (!empty($myname) && !empty($mystreet) && !empty($mycity) && !empty($myzip) && !empty($mycreditcard) && !empty($myexpiration) && !empty($mysecuritycode)) {
+if ($_REQUEST['csrf_token'] === $_SESSION['csrf_token'] && !empty($myname) && !empty($mystreet) && !empty($mycity) && !empty($myzip) && !empty($mycreditcard) && !empty($myexpiration) && !empty($mysecuritycode)) {
     // Insert the order into the database
     if (!($orderStmnt = $mysqli->prepare("INSERT INTO orders (name, street, city, state, zip, creditcard, expiration, securitycode) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"))) {
         echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
@@ -80,7 +80,8 @@ if (!empty($myname) && !empty($mystreet) && !empty($mycity) && !empty($myzip) &&
         }
     }
 
-    // Now that everything is entered into the database, empty the cart
+    // Now that everything is entered into the database, empty the cart & CSRF
+    unset($_SESSION['csrf_token']);
     unset($_SESSION['cart']);
     ?>
 
@@ -104,6 +105,8 @@ if (!empty($myname) && !empty($mystreet) && !empty($mycity) && !empty($myzip) &&
 
     <p>Please enter your billing details.</p>
     <form>
+<!--    Pass along the token from how we got it (Session CSRF should not be touched until the end)-->
+        <input type="hidden" value="<?php echo $_REQUEST['csrf_token']; ?>">
         <table>
             <tr>
                 <th><label for="name">Name</label></th>
@@ -180,7 +183,7 @@ if (!empty($myname) && !empty($mystreet) && !empty($mycity) && !empty($myzip) &&
 
 
                         foreach ($states as $key => $value)
-                            echo "<option value='$key'" . ($mystate == $key ? " selected" : "") . ">$value</option>\n";
+                            echo htmlspecialchars("<option value='$key'" . ($mystate == $key ? " selected" : "") . ">$value</option>\n", ENT_QUOTES, 'UTF-8');
                         ?>
 
                     </select>
