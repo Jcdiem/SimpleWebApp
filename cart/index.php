@@ -10,35 +10,33 @@ $productID = $_REQUEST['product_id'];
 $productQuantity = $_REQUEST['quantity'] ?: 1;
 $productToBeRemovedID = $_REQUEST['remove_product_id'];
 
-// GET THE PRICE OF THE ITEM
-
+if(!empty($productID)) {
 //Prepare the statement
-if (!($stmnt = $mysqli->prepare("SELECT * FROM products WHERE id=(?)"))) echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
+    if (!($stmnt = $mysqli->prepare("SELECT * FROM products WHERE id=(?)"))) echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
 //Bind the item id
-if (!$stmnt->bind_param("i",$productID)) echo "Binding parameters failed: (" . $stmnt->errno . ") " . $stmnt->error;
+    if (!$stmnt->bind_param("i", $productID)) echo "Binding parameters failed: (" . $stmnt->errno . ") " . $stmnt->error;
 
 //Execute the statement
-if (!$stmnt->execute()) echo "Execute failed: (" . $stmnt->errno . ") " . $stmnt->error;
+    if (!$stmnt->execute()) echo "Execute failed: (" . $stmnt->errno . ") " . $stmnt->error;
 
 //Get the result from the statement
-$result = $stmnt->get_result();
+    $result = $stmnt->get_result();
 
 //Get the product row from the database
-if (is_null($productItem = $result->fetch_assoc())) echo "ERROR: Assoc array not created";
+    if (is_null($productItem = $result->fetch_assoc())) echo "ERROR: Assoc array not created";
 
 //Get the value as a number from the product row (Ternary to prevent PHP from screaming bloody murder when nulls come through [Imagine forcing null checks in a language without type safety])
-if ($productPrice = isset($productItem['price']) ? $productItem['price'] : true) echo "ERROR: was unable to get product price!";
+    if ($productPrice = isset($productItem['price']) ? $productItem['price'] : true) echo "ERROR: was unable to get product price!";
 
-// END PRICE GATHERING
+
+    //Add the item to the cart
+    $_SESSION['cart'][$productID][$productPrice] += $productQuantity;
+}
+
 
 // If the user requested an item to be removed, remove it
 if(!empty($productToBeRemovedID)) {
 	unset($_SESSION['cart'][$productToBeRemovedID]);
-}
-
-// If the user sent a product_id, add the quantity to the existing cart quantity
-if(!empty($productID)) {
-	$_SESSION['cart'][$productID][$productPrice] += $productQuantity;
 }
 
 // Select all of the product details from the database
