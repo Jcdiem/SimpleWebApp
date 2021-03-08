@@ -143,7 +143,7 @@ or <button onclick="sendToCheckout();">Checkout</button>
 
 <script>
     function sendToCheckout(){
-        $.redirect('cart/index.html',{'csrf_token': '<?php echo $_SESSION['csrf_token'] ?>'});
+        $.redirect('checkout.php',{'csrf_token': '<?php echo $_SESSION['csrf_token'] ?>'});
     }
 </script>
 </body>
