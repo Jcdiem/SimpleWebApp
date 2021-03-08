@@ -55,6 +55,7 @@ while($row = mysqli_fetch_array($results)) {
 
 <head>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://raw.githubusercontent.com/mgalante/jquery.redirect/master/jquery.redirect.js"></script>
 	<title>Disco Juice - Shopping Cart</title>
 	<style>
 		table {
