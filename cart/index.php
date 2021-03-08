@@ -131,7 +131,7 @@ foreach($_SESSION['cart'] as $item_product_id => $item) {
 if(!empty($_SESSION['cart'])) {
 ?>
 <!--                                                               Send the CSRF token-->
-or <button onclick="document.location='checkout.php?csrf_token=<?php echo $_SESSION['csrf_token']; ?>">Checkout</button>
+or <button onclick="document.location='checkout.php?csrf_token=<?php echo $_SESSION['csrf_token']; ?>'>Checkout</button>
 
 <?php
 }
