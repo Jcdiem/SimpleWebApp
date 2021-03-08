@@ -50,8 +50,8 @@ $searchTerm = "%" . $_REQUEST['searchTrm'] . "%";
     echo "Main Ingredient: {$row['ingredient']} <br>";
     echo "Vendor ID: {$row['vendorid']} <br>"; ?>
 
-    //SWAPPING TO PURE HTML UNLESS STARTING WITH PHP TAG FROM HERE ON
-    <form method='post' action='/cart/index.php' style='border: 1px dot-dash red'>
+<!--    SWAPPING TO PURE HTML UNLESS STARTING WITH PHP TAG FROM HERE ON-->
+    <form method='post' action='/cart/index.php' style='border: 1px dot-dash #ff0000'>
         <label for="quantity">Quantity:</label>
 <!--        Label tag has no *modern* 'for' attribute due to dynamic loading     -->
         <input type='number' name='quantity' placeholder='Enter desired amount'>
@@ -60,9 +60,10 @@ $searchTerm = "%" . $_REQUEST['searchTrm'] . "%";
         </form>
         </p>
         </div></li>
-
-        //Close out the loop
-        <?php } ?>
+    <?php
+    //Close out the loop
+    }
+    ?>
 </ul>
 </body>
 </html>
