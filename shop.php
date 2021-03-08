@@ -56,6 +56,7 @@ $searchTerm = "%" . $_REQUEST['searchTrm'] . "%";
 <!--        Label tag has no *modern* 'for' attribute due to dynamic loading     -->
         <input type='number' name='quantity' placeholder='Enter desired amount'>
         <?php echo "<input type='hidden' name='product_id' readonly value='{$row['id']}'>";?>
+        <input type="submit" value="Add to Cart">
 <!--    Close out all of our lovely tags-->
         </form>
         </p>
