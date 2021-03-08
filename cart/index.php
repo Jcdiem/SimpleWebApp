@@ -6,19 +6,19 @@ session_start();
 require_once $_SERVER['DOCUMENT_ROOT']."/admin/db.php";
 
 // Form variables
-$myproduct_id = $_REQUEST['product_id'];
-$myprice = $_REQUEST['price'];
-$myquantity = $_REQUEST['quantity'] ?: 1;
-$myremove_product_id = $_REQUEST['remove_product_id'];
+$productID = $_REQUEST['product_id'];
+$productPrice = $_REQUEST['price'];
+$productQuantity = $_REQUEST['quantity'] ?: 1;
+$productToBeRemovedID = $_REQUEST['remove_product_id'];
 
 // If the user requested an item to be removed, remove it
-if(!empty($myremove_product_id)) {
-	unset($_SESSION['cart'][$myremove_product_id]);
+if(!empty($productToBeRemovedID)) {
+	unset($_SESSION['cart'][$productToBeRemovedID]);
 }
 
 // If the user sent a product_id, add the quantity to the existing cart quantity
-if(!empty($myproduct_id)) {
-	$_SESSION['cart'][$myproduct_id][$myprice] += $myquantity;
+if(!empty($productID)) {
+	$_SESSION['cart'][$productID][$productPrice] += $productQuantity;
 }
 
 // Select all of the product details from the database
