@@ -18,6 +18,7 @@ $searchTerm = "%" . $_REQUEST['searchTrm'] . "%";
 <p style="border: 1px solid black">
     Welcome to our shop, where we sell the juice. Riveting concept, with only the finest technology involved.
     <br>Why use lots of CSS when you can drink juice?
+</p>
 <ul id="shopItems">
     <?php
     if (!($stmnt = $mysqli->prepare("SELECT * FROM products WHERE name LIKE (?) ORDER BY name"))) {
@@ -33,46 +34,35 @@ $searchTerm = "%" . $_REQUEST['searchTrm'] . "%";
         echo "Gathering result failed: (" . $stmnt->errno . ") " . $stmnt->error;
     }
     while ($row = $result->fetch_array(MYSQLI_BOTH)) {
-//            echo $row;
-        echo "<li><div style=\"border: 1px solid black\">";
-        echo "<br>";
+    //            echo $row;
+    echo "<li><div style=\"border: 1px solid black\">";
+    echo "<br>";
 
-        //Give the paragraph the ID of the item's name
-        //using a string builder
-        $paraTag = '<p id="';
-        $paraTag .= "{$row['name']}";
-        $paraTag .= '">';
+    //Give the paragraph the ID of the item's name
+    //using a string builder
+    //        $paraTag = '<p id="';
+    //        $paraTag .= "{$row['name']}";
+    //        $paraTag .= '">';
 
-        echo $paraTag;
-        echo "<h2>{$row[1]}</h2><br>";
-        echo "Price: \${$row[2]} <br>";
-        echo "Main Ingredient: {$row[3]} <br>";
-        echo "Vendor ID: {$row[4]} <br>";
-        echo "<button id='{}'>Add to Cart</button>";
-        echo "</p>";
-        echo "</div></li>";
-        //echo "{$row['name']} {$row['price']} {$row['ingredient']} {$row['vendorid']}";
-    }
-    ?>
-    <!-- <li><div></div></li> -->
+    echo "<p>";
+    echo "<h2>{$row['name']}</h2><br>";
+    echo "Price: \${$row['price']} <br>";
+    echo "Main Ingredient: {$row['ingredient']} <br>";
+    echo "Vendor ID: {$row['vendorid']} <br>"; ?>
+
+    //SWAPPING TO PURE HTML UNLESS STARTING WITH PHP TAG FROM HERE ON
+    <form method='post' action='/cart/index.php' style='border: 1px dot-dash red'>
+        <label for="quantity">Quantity:</label>
+<!--        Label tag has no *modern* 'for' attribute due to dynamic loading     -->
+        <input type='number' name='quantity' placeholder='Enter desired amount'>
+        <?php echo "<input type='hidden' name='product_id' readonly value='{$row['id']}'>";?>
+<!--    Close out all of our lovely tags-->
+        </form>
+        </p>
+        </div></li>
+
+        //Close out the loop
+        <?php } ?>
 </ul>
-</p>
-<script>
-    function errOut() {
-        alert("FATAL ERROR: Chek console for details.");
-    }
-
-    function addItem(itemID) {
-        if (!Number.isInteger(itemID)) console.error("ERROR: ItemID of " + itemID + " is not a valid integer.";
-        errOut();
-    else
-        if (itemID < 0) console.error("ERROR: ItemID is negative (" + itemID + ")");
-        errOut();
-    else
-        {
-
-        }
-    }
-</script>
 </body>
 </html>
