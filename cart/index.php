@@ -19,6 +19,7 @@ if (!$stmnt->bind_param("i",$productID)) echo "Binding parameters failed: (" . $
 printf("Binding state: %s.\n", $stmnt->sqlstate);
 //Execute the statement
 if (!$stmnt->execute()) echo "Execute failed: (" . $stmnt->errno . ") " . $stmnt->error;
+printf("Execution state: %s.\n", $stmnt->sqlstate);
 //Get the result from the statement
 if (!$result = $stmnt->get_result()) echo "Gathering result failed: (" . $result->errno . ") " . $result->error;
 //Get the product row from the database
