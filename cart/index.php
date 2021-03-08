@@ -26,7 +26,7 @@ if(!empty($productID)) {
     if (is_null($productItem = $result->fetch_assoc())) echo "ERROR: Assoc array not created";
 
 //Get the value as a number from the product row (Ternary to prevent PHP from screaming bloody murder when nulls come through [Imagine forcing null checks in a language without type safety])
-    if ($productPrice = isset($productItem['price']) ? $productItem['price'] : true) echo "ERROR: was unable to get product price!";
+    if (!is_numeric($productPrice = isset($productItem['price']) ? $productItem['price'] : true)) echo "ERROR: was unable to get product price!";
 
 
     //Add the item to the cart
