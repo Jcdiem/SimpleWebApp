@@ -34,35 +34,29 @@ $searchTerm = "%" . $_REQUEST['searchTrm'] . "%";
         echo "Gathering result failed: (" . $stmnt->errno . ") " . $stmnt->error;
     }
     while ($row = $result->fetch_array(MYSQLI_BOTH)) {
-    //            echo $row;
-    echo "<li><div style=\"border: 1px solid black\">";
-    echo "<br>";
+        //            echo $row;
+        echo "<li><div style=\"border: 1px solid black\">";
+        echo "<br>";
 
-    //Give the paragraph the ID of the item's name
-    //using a string builder
-    //        $paraTag = '<p id="';
-    //        $paraTag .= "{$row['name']}";
-    //        $paraTag .= '">';
+        echo "<p>";
+        echo "<h2>{$row['name']}</h2><br>";
+        echo "Price: \${$row['price']} <br>";
+        echo "Main Ingredient: {$row['ingredient']} <br>";
+        echo "Vendor ID: {$row['vendorid']} <br>"; ?>
 
-    echo "<p>";
-    echo "<h2>{$row['name']}</h2><br>";
-    echo "Price: \${$row['price']} <br>";
-    echo "Main Ingredient: {$row['ingredient']} <br>";
-    echo "Vendor ID: {$row['vendorid']} <br>"; ?>
-
-<!--    SWAPPING TO PURE HTML UNLESS STARTING WITH PHP TAG FROM HERE ON-->
-    <form method='post' action='/cart/index.php' style='border: 1px dot-dash #ff0000'>
-        <label for="quantity">Quantity:</label>
-<!--        Label tag has no *modern* 'for' attribute due to dynamic loading     -->
-        <input type='number' name='quantity' placeholder='Enter desired amount'>
-        <?php echo "<input type='hidden' name='product_id' readonly value='{$row['id']}'>";?>
-        <input type="submit" value="Add to Cart">
-<!--    Close out all of our lovely tags-->
+        <!--    SWAPPING TO PURE HTML UNLESS STARTING WITH PHP TAG FROM HERE ON-->
+        <form method='post' action='/cart/index.php' style='border: 1px dot-dash #ff0000'>
+            <label for="quantity">Quantity:</label>
+            <!--        Label tag has no *modern* 'for' attribute due to dynamic loading     -->
+            <input type='number' name='quantity' placeholder='Enter desired amount'>
+            <?php echo "<input type='hidden' name='product_id' readonly value='{$row['id']}'>"; ?>
+            <input type="submit" value="Add to Cart">
+            <!--    Close out all of our lovely tags-->
         </form>
         </p>
         </div></li>
-    <?php
-    //Close out the loop
+        <?php
+        //Close out the loop
     }
     ?>
 </ul>
