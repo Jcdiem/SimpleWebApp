@@ -122,7 +122,7 @@ foreach($_SESSION['cart'] as $item_product_id => $item) {
 }
 ?>
 
-<p><a href="<?= $_SERVER['HTTP_REFERER'] && (parse_url($_SERVER['HTTP_REFERER'], PHP_URL_PATH) != parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)) ? $_SERVER['HTTP_REFERER'] : "/" ?>">Continue Shopping</a>
+<p><a href="<?= $_SERVER['HTTP_REFERER'] && (parse_url($_SERVER['HTTP_REFERER'], PHP_URL_PATH) != parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)) ? $_SERVER['HTTP_REFERER'] : "/shop.php" ?>">Continue Shopping</a>
 
 <?php
 // Only show the "Checkout" button if there are contents in the cart
