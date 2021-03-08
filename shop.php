@@ -49,5 +49,18 @@ Welcome to our shop, where we sell the juice. Riveting concept, with only the fi
 <!-- <li><div></div></li> -->
 </ul>
 </p>
+<script>
+function errOut(){
+	alert("FATAL ERROR: Chek console for details.");
+}
+
+function addItem(itemID){
+	if(!Number.isInteger(itemID)) console.error("ERROR: ItemID of " + itemID + " is not a valid integer."; errOut();
+	else if (itemID < 0) console.error("ERROR: ItemID is negative (" + itemID + ")"); errOut();
+	else {
+		
+	}
+}
+</script>
 </body>
 </html>
