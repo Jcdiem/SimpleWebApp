@@ -10,8 +10,10 @@ $productID = $_REQUEST['product_id'];
 $productQuantity = $_REQUEST['quantity'] ?: 1;
 $productToBeRemovedID = $_REQUEST['remove_product_id'];
 
+// GET THE PRICE OF THE ITEM
+
 //Prepare the statement
-if (!($stmnt = $mysqli->prepare("SELECT * FROM products WHERE id LIKE (?)"))) echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
+if (!($stmnt = $mysqli->prepare("SELECT * FROM products WHERE id=(?)"))) echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
 //Bind the item id
 if (!$stmnt->bind_param("i",$productID)) echo "Binding parameters failed: (" . $stmnt->errno . ") " . $stmnt->error;
 //Execute the statement
@@ -23,6 +25,7 @@ $productPrice = $result->fetch_array(MYSQLI_ASSOC)["price"];
 //Make sure the product price isn't null
 if ($productPrice = null) echo "Gathering data failed: " . $stmnt->errno . " - " . $stmnt->error;
 
+// END PRICE GATHERING
 
 // If the user requested an item to be removed, remove it
 if(!empty($productToBeRemovedID)) {
