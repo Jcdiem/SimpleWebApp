@@ -54,6 +54,7 @@ while($row = mysqli_fetch_array($results)) {
 <html lang=en>
 
 <head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<title>Disco Juice - Shopping Cart</title>
 	<style>
 		table {
@@ -130,13 +131,19 @@ foreach($_SESSION['cart'] as $item_product_id => $item) {
 // Only show the "Checkout" button if there are contents in the cart
 if(!empty($_SESSION['cart'])) {
 ?>
-<!--                                                               Send the CSRF token-->
-or <button onclick="document.location='checkout.php?csrf_token=<?php echo $_SESSION['csrf_token']; ?>'">Checkout</button>
+
+or <button onclick="sendToCheckout();">Checkout</button>
 
 <?php
 }
 ?>
 
 </p>
+
+<script>
+    function sendToCheckout(){
+        $.redirect('cart/index.html',{'csrf_token': '<?php echo $_SESSION['csrf_token'] ?>'});
+    }
+</script>
 </body>
 </html>
