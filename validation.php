@@ -5,10 +5,6 @@
         else return false;
     }
 
-    function sanitizeString($string){
-        return mysqli_real_escape_string($string);
-    }
-
     function checkIntegerRange($int, $min, $max)
     {
         if (is_string($int) && !ctype_digit($int)) {
