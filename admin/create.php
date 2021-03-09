@@ -1,6 +1,15 @@
 <?php require_once $_SERVER['DOCUMENT_ROOT']."/admin/db.php" ?>
 <?php require_once $_SERVER['DOCUMENT_ROOT']."/admin/force_login.php"?>
 <?php require_once $_SERVER['DOCUMENT_ROOT']."/validation.php" ?>
+<?php
+session_start();
+//Create CSRF
+try {
+    $_SESSION["csrf_token"] = bin2hex(random_bytes(128));
+} catch (Exception $e) {
+    echo "Huh, that's probably really bad...";
+}
+?>
 <html lang="en">
 <body>
 
@@ -9,11 +18,10 @@
 
 $failure = false;
 
-if ($_REQUEST['name']) {
-
+if ($_REQUEST['name'] && $_REQUEST['csrf_token'] == $_SESSION['csrf_token']) {
     $myname = $mysqli->real_escape_string($_REQUEST['name']);
     $myprice = (double)$_REQUEST['price'];
-    $mainIngred = $mysqli->real_escape_string($_REQUEST['ingred']);
+    $mainIngred = $mysqli->real_escape_string($_REQUEST['ingredient']);
     $vendorID = $_REQUEST['vendor'];
 
     if (validateString($myname) == false) {
@@ -29,13 +37,14 @@ if ($_REQUEST['name']) {
         failValidation("Error in the ingredient");
     }
     else{
-        $sql = "INSERT INTO products (name, price, ingredient, vendorid) VALUES ('$myname', $myprice, '$mainIngred', $vendorID)";
-
-        // This is the object-oriented style to query the database
-        if ($mysqli->query($sql) === TRUE) {
-            echo "Product $myname created successfully!<br />";
-        } else {
-            echo "Error: $sql <br />" . $mysqli->error;
+        if (!($stmnt = $mysqli->prepare("INSERT INTO products (name, price, ingredient, vendorid) VALUES (?, ?, ?, ?)"))) {
+            echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
+        }
+        if (!$stmnt->bind_param("sdsi", $myname, $myprice, $mainIngred, $vendorID)) {
+            echo "Binding parameters failed: (" . $stmnt->errno . ") " . $stmnt->error;
+        }
+        if (!$stmnt->execute()) {
+            echo "Execute failed: (" . $stmnt->errno . ") " . $stmnt->error;
         }
     }
 
@@ -45,6 +54,8 @@ if ($_REQUEST['name']) {
 ?>
 
 <form>
+    <input type="hidden" value="<?php echo $_REQUEST['csrf_token']; ?>">
+
     <label>Name:</label>
     <input type="text" name="name"/>
 
@@ -52,7 +63,7 @@ if ($_REQUEST['name']) {
     <input type="text" name="price"/>
 
     <label>Main Ingredient:</label>
-    <input type="text" name="ingred"/>
+    <input type="text" name="ingredient"/>
 
     <label>Vendor ID:</label>
     <input type="number" name="vendor"/>

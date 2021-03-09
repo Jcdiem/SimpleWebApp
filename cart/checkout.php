@@ -106,7 +106,7 @@ if ($_REQUEST['csrf_token'] === $_SESSION['csrf_token'] && !empty($myname) && !e
     <p>Please enter your billing details.</p>
     <form>
 <!--    Pass along the token from how we got it (Session CSRF should not be touched until the end)-->
-        <input type="hidden" value="<?php echo $_REQUEST['csrf_token']; ?>">
+        <input type="hidden" name="csrf_token" value="<?php echo $_REQUEST['csrf_token']; ?>">
         <table>
             <tr>
                 <th><label for="name">Name</label></th>

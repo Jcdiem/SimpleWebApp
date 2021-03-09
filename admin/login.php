@@ -1,19 +1,36 @@
 <?php
 session_start();
 
+//Create CSRF
+try {
+    $_SESSION["csrf_token"] = bin2hex(random_bytes(128));
+} catch (Exception $e) {
+    echo "Huh, that's probably really bad...";
+}
+
 require_once $_SERVER['DOCUMENT_ROOT']."/admin/db.php";
 
-$myusername = $_REQUEST['username'];
-$mypassword = $_REQUEST['password'];
+$userName = $_REQUEST['username'];
+$userPass = $_REQUEST['password'];
 
-$sql = "SELECT * FROM users WHERE username='$myusername' AND password=SHA2('$mypassword',256)";
+if (!($stmnt = $mysqli->prepare("SELECT * FROM users WHERE username=? AND password=SHA2(?,256)"))) {
+    echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
+}
+if (!$stmnt->bind_param("ss", $userName, $userPass)) {
+    echo "Binding parameters failed: (" . $stmnt->errno . ") " . $stmnt->error;
+}
+if (!$stmnt->execute()) {
+    echo "Execute failed: (" . $stmnt->errno . ") " . $stmnt->error;
+}
+if (!$result = $stmnt->get_result()) {
+    echo "Gathering result failed: (" . $stmnt->errno . ") " . $stmnt->error;
+}
 
-$result = mysqli_query($mysqli, $sql);
-
-$row = mysqli_fetch_array($result);
+$row = mysqli_fetch_assoc($result);
 
 // This is what happens when a user successfully authenticates
 if(!empty($row)) {
+    unset($_SESSION['csrf_token']);
 	session_destroy();
 	session_start();
 
@@ -25,7 +42,7 @@ if(!empty($row)) {
 	echo "<p>Incorrect username OR password</p>";
 }
 
-if($_SESSION['username']) {
+if($_SESSION['username'] && $_SESSION['csrf_token'] == $_REQUEST['csrf_token']) {
 	echo "<p>Welcome {$_SESSION[username]}</p>";
 
 	header("Location: {$_REQUEST['redirect']}");
@@ -37,6 +54,7 @@ if($_SESSION['username']) {
 <body>
 
 <form>
+    <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
 	<input type="hidden" name="redirect" value="<?= $_REQUEST['redirect'] ?>" />
 
 	<label>Username:</label>

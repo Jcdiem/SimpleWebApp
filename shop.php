@@ -56,6 +56,7 @@ $searchTerm = "%" . $_REQUEST['searchTrm'] . "%";
 
         <!--    SWAPPING TO PURE HTML UNLESS STARTING WITH PHP TAG FROM HERE ON-->
         <form method='post' action='/cart/index.php' style='border: 1px dot-dash #ff0000'>
+            <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
             <label for="quantity">Quantity:</label>
             <!--        Label tag has no *modern* 'for' attribute due to dynamic loading     -->
             <input type='number' name='quantity' placeholder='Enter desired amount'>
