@@ -20,7 +20,7 @@ try {
 $searchTerm = "%" . $_REQUEST['searchTrm'] . "%";
 ?>
 <h1>Discount Juice - Shop</h1>
-<a href="~/">Main Page</a>
+<a href="/">Main Page</a>
 <form id="searchForm">
     <label for="searchInput">Search Term</label>
     <input type="text" name="searchTrm" id="searchTrm">
@@ -44,6 +44,7 @@ $searchTerm = "%" . $_REQUEST['searchTrm'] . "%";
     if (!$result = $stmnt->get_result()) {
         echo "Gathering result failed";
     }
+    if ($result->fetch_row() == null) echo "Nothing here but good 'ol voidspace.";
     while ($row = $result->fetch_array(MYSQLI_BOTH)) {
         //            echo $row;
         echo "<li><div style=\"border: 1px solid black\">";
