@@ -40,6 +40,8 @@ $mysecuritycode = $_REQUEST['securitycode'];
             text-align: right;
         }
     </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
 </head>
 
 <body>
@@ -117,33 +119,33 @@ if ($_REQUEST['csrf_token'] === $_SESSION['csrf_token'] && !empty($myname)
     ?>
 
     <p>Please enter your billing details.</p>
-    <form>
+    <form id="daForm">
 <!--    Pass along the token from how we got it (Session CSRF should not be touched until the end)-->
         <input type="hidden" name="csrf_token" value="<?php echo $_REQUEST['csrf_token']; ?>">
         <table>
             <tr>
                 <th><label for="name">Name</label></th>
-                <td><input id="name" type="text" name="name" value="<?= $myname ?>" required/></td>
+                <td><input id="name" type="text" name="name" maxlength="64" value="<?= $myname ?>" required/></td>
             </tr>
             <tr>
                 <th><label for="street">Street</label></th>
-                <td><input id="street" type="text" name="street" value="<?= $mystreet ?>" required/></td>
+                <td><input id="street" type="text" name="street" maxlength="64" value="<?= $mystreet ?>" required/></td>
             </tr>
             <tr>
                 <th><label for="city">City</label></th>
-                <td><input id="city" type="text" name="city" value="<?= $mycity ?>" required/></td>
+                <td><input id="city" type="text" name="city" maxlength="64" value="<?= $mycity ?>" required/></td>
             </tr>
             <tr>
                 <th><label for="state">State</label></th>
-                <td><input id="state" type="text" name="state" size="2" value="<?= $mystate ?>" required></td>
+                <td><input id="state" type="text" name="state" size="2" maxlength="2" minlength="2" value="<?= $mystate ?>" required></td>
             </tr>
             <tr>
                 <th><label for="zip">Zip</label></th>
-                <td><input id="zip" type="text" name="zip" value="<?= $myzip ?>" required/></td>
+                <td><input id="zip" type="text" maxlength="5" name="zip" value="<?= $myzip ?>" required/></td>
             </tr>
             <tr>
                 <th><label for="creditcard">Credit Card</label></th>
-                <td><input id="creditcard" type="text" name="creditcard" value="<?= $mycreditcard ?>" required/></td>
+                <td><input id="creditcard" type="text" name="creditcard" minlength="16" maxlength="16" value="<?= $mycreditcard ?>" required/></td>
             </tr>
             <tr>
                 <th><label for="expiration">Expiration</label></th>
@@ -151,7 +153,7 @@ if ($_REQUEST['csrf_token'] === $_SESSION['csrf_token'] && !empty($myname)
             </tr>
             <tr>
                 <th><label for="securitycode">Security Code</label></th>
-                <td><input id="securitycode" type="password" name="securitycode" maxlength="4"
+                <td><input id="securitycode" type="password" name="securitycode" maxlength="3" minlength="3"
                            value="<?= $mysecuritycode ?>" required/></td>
 
             </tr>
@@ -166,6 +168,10 @@ if ($_REQUEST['csrf_token'] === $_SESSION['csrf_token'] && !empty($myname)
 // END: If-else field check
 }
 ?>
+
+<script>
+$("#daForm").validate();
+</script>
 
 </body>
 </html>
