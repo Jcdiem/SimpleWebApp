@@ -21,6 +21,7 @@ $maxInt = ($mysqli->query("SELECT COUNT(*) FROM products"));
 //Perform validations
 if(!checkIntegerRange($prodID,0,$maxInt)) failValidation("Improper ID");
 else if ($_REQUEST['csrf_token'] == $_SESSION['csrf_token']){
+    unset($_SESSION['csrf_token']);
 
     //Prepare the statement
     if (!($stmnt = $mysqli->prepare("DELETE FROM products WHERE id=(?)"))) echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;

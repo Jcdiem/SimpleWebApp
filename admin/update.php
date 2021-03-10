@@ -29,6 +29,8 @@ else if (checkDecimalRange($myprice, 0, 999.99)) failValidation("Error in price 
 else if(!checkIntegerRange($vendorID,1,2)) failValidation("Vendor outside of range");
 else {
     if ($_REQUEST['name'] && $_REQUEST['csrf_token'] == $_SESSION['csrf_token']) {
+        unset($_SESSION['csrf_token']);
+
         if (!($stmnt = $mysqli->prepare("UPDATE products SET name=?, price=? WHERE id=?"))) {
             echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
         }

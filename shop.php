@@ -20,6 +20,7 @@ try {
 $searchTerm = "%" . $_REQUEST['searchTrm'] . "%";
 ?>
 <h1>Discount Juice - Shop</h1>
+<a href="~/">Main Page</a>
 <form id="searchForm">
     <label for="searchInput">Search Term</label>
     <input type="text" name="searchTrm" id="searchTrm">
@@ -32,16 +33,16 @@ $searchTerm = "%" . $_REQUEST['searchTrm'] . "%";
 <ul id="shopItems">
     <?php
     if (!($stmnt = $mysqli->prepare("SELECT * FROM products WHERE name LIKE (?) ORDER BY name"))) {
-        echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
+        echo "Prepare failed";
     }
     if (!$stmnt->bind_param("s", $searchTerm)) {
-        echo "Binding parameters failed: (" . $stmnt->errno . ") " . $stmnt->error;
+        echo "Binding parameters failed";
     }
     if (!$stmnt->execute()) {
-        echo "Execute failed: (" . $stmnt->errno . ") " . $stmnt->error;
+        echo "Execute failed";
     }
     if (!$result = $stmnt->get_result()) {
-        echo "Gathering result failed: (" . $stmnt->errno . ") " . $stmnt->error;
+        echo "Gathering result failed";
     }
     while ($row = $result->fetch_array(MYSQLI_BOTH)) {
         //            echo $row;

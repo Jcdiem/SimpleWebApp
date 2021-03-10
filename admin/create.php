@@ -19,6 +19,7 @@ try {
 $failure = false;
 
 if ($_REQUEST['name'] && $_REQUEST['csrf_token'] == $_SESSION['csrf_token']) {
+    unset($_SESSION['csrf_token']);
     $myname = $mysqli->real_escape_string($_REQUEST['name']);
     $myprice = (double)$_REQUEST['price'];
     $mainIngred = $mysqli->real_escape_string($_REQUEST['ingredient']);

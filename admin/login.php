@@ -52,6 +52,7 @@ if($_SESSION['username'] && $_SESSION['csrf_token'] == $_REQUEST['csrf_token']) 
 ?>
 <html>
 <body>
+<p>Don't want to be here? <a href="~/">Go back to home.</a></p>
 
 <form>
     <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
