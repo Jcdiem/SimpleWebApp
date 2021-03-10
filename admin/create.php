@@ -54,7 +54,7 @@ if ($_REQUEST['name'] && $_REQUEST['csrf_token'] == $_SESSION['csrf_token']) {
 ?>
 
 <form>
-    <input type="hidden" value="<?php echo $_SESSION['csrf_token']; ?>">
+    <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
 
     <label>Name:</label>
     <input type="text" name="name"/>
