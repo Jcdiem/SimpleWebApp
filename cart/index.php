@@ -109,7 +109,7 @@ foreach($_SESSION['cart'] as $item_product_id => $item) {
 		$shopping_cart_total += $item_subtotal;
 
 		// Display the table row with a subtotal
-		echo "<tr><td>"
+		echo "<tr><td>";
 		echo htmlspecialchars("$item_name");
 		echo "<a class='remove' href='?remove_product_id=";
 		echo htmlspecialchars("$item_product_id");
