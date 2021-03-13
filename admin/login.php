@@ -29,7 +29,7 @@ if (!$result = $stmnt->get_result()) {
 $row = mysqli_fetch_assoc($result);
 
 // This is what happens when a user successfully authenticates
-if(!empty($row)) {
+if(!empty($row) && $_SESSION['csrf_token'] == $_REQUEST['csrf_token']) {
     unset($_SESSION['csrf_token']);
 	session_destroy();
 	session_start();
@@ -42,7 +42,7 @@ if(!empty($row)) {
 	echo "<p>Incorrect username OR password</p>";
 }
 
-if($_SESSION['username'] && $_SESSION['csrf_token'] == $_REQUEST['csrf_token']) {
+if($_SESSION['username']) {
 	echo "<p>Welcome {$_SESSION[username]}</p>";
 
 	header("Location: {$_REQUEST['redirect']}");
