@@ -1,4 +1,4 @@
-# WCTC-WebAppSecurity
+# Simple Web Application
 Final project for Web Application Security Course at WCTC
 
 # Statement on info contained
